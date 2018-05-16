@@ -5,6 +5,7 @@ body {
 }
 .bold{ font-weight: bold; }
 .center { text-align: center;}
+.left{ text-align: left;}
 .clear {clear:both;}
 a { text-decoration: none; }
 
@@ -48,9 +49,10 @@ p {
     line-height: 20px;
     font-size: 15px;
     width: 100%;
-    text-align: center;
+    color: #eb5600;;
 }
 input[type="text"] {
     width: 250px;
 }
 li {margin-bottom: 2px;}
+

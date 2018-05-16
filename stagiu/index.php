@@ -29,80 +29,63 @@
             <li>Suma numerelor multiplu de 5</li>
         </ol>
     </div>
-    <div class="container">
+    <div id="container">
+    <?php
 
-        <form method="POST" class="center">
+              echo '
+          
+        <form action = "inserare.php" method="POST" enctype="multipart/form-data" class="center">
             <span class="label ">Numar de pornire</span>
-            <input type="text" name="startPoint"/>
+            <input type="text" name="min"/><input type="hidden" name="txt_nr" value="<?php echo $id;?>"><br /><br />
+
 
             <p class="label">Numar de sfarsit</p>
-            <input type="text" name="endPoint"/>
+            <input type="text" name="max"/>
 
             <p class="label">Numar de elemente</p>
-            <input type="text" name="iterations"/>
+            <input type="text" name="it"/>
 
             <br/><br/>
+            <input type="submit" name="submit" value="Adauga"/>
+            <button formaction="trigger.php">Trriger</button>
+              </form><br /><br />      
+                        ';
 
-            <input type="submit"/>
-        </form>
+            $con = mysqli_connect("localhost", "root", "", "stagiu");
+            $sql = "SELECT * FROM `sir`";
+            $result = mysqli_query($con, $sql);
+            echo'<table border="1" width="500px">';
+                while($row = mysqli_fetch_array($result)) {//cat timp mem fiecare rand in baza de data
+                    $id = $row['id'];//vectorul row memorez fiecare rand
+                    $min = $row['min'];
+                    $max = $row['max'];
+                    $it = $row['it'];
+                    $date=$row['date'];
+
+
+                    echo "
+                <tr>
+                    <td>$id</td>
+                    <td>$min</td>
+                    <td>$max</td>
+                    <td>$it</td>
+                    <td>$date</td>
+
+
+                    <td><a href='editeaza.php?id=$id'>Edit</a></td>
+                    <td><a href='delete.php?id=$id' >Delete</a>
+                    <td><a href='run.php?id=$id'>Run</a>
+                    </td></tr>
+                ";
+                }
+
+        ?>
+
     </div>
+
 
     <div class="clear"></div>
 </div>
 </body>
 </html>
-
-<?php
-if (!$_POST) {
-    exit;
-}
-/*$start=$_POST['startPoint'];
-$finish=$_POST['endPoint'];
-$it=$_POST['iterations'];
-*/
-if(empty($_POST['startPoint'])||empty($_POST['endPoint']) ||empty($_POST['iterations'])){
-    echo 'Completeaza campurile de mai sus!';
-    exit();
-}
-
-function sir($start, $finish,$it)
-{
-    $array = range($start + 1, $finish - 1);//declar un array
-    $array = array_slice($array, 0, $it);
-    return $array;
-
-}
-
-function modulo($multiplu){
-    $nr=0;
-    $arr=[];
-    $sum=0;
-    foreach($multiplu as $value){//iar din array(sir)=$data valoarea=$value
-        if($value%3==0){
-            $arr[]=$value;
-        }
-        //echo '<br>';
-        if($value%4==0) {
-            $nr++;
-        }
-        if($value%5==0) {
-            $sum += $value;
-
-        }
-    }
-    echo "Multiplii de 3:";var_dump($arr);
-    echo "<br>";
-    echo "Multiplii de 4:".$nr ;
-    echo "<br>";
-    echo "Suma-multiplii lui 5:".$sum;
-
-}
-
-
-$dataarray=sir($_POST['startPoint'],$_POST['endPoint'],$_POST['iterations']);
-echo "Sirul:"; var_dump($dataarray);
-echo '<br>';
-$modulo=modulo($dataarray);
-
-
 
